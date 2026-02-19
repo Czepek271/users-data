@@ -1,0 +1,47 @@
+name: Discord Notification
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send pretty embed to Discord
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "{
+            \"embeds\": [{
+              \"title\": \"🚀 Nowy Commit!\",
+              \"color\": 5814783,
+              \"fields\": [
+                {
+                  \"name\": \"📦 Repozytorium\",
+                  \"value\": \"${{ github.repository }}\",
+                  \"inline\": true
+                },
+                {
+                  \"name\": \"👤 Autor\",
+                  \"value\": \"${{ github.actor }}\",
+                  \"inline\": true
+                },
+                {
+                  \"name\": \"🌿 Branch\",
+                  \"value\": \"${{ github.ref_name }}\",
+                  \"inline\": true
+                },
+                {
+                  \"name\": \"📝 Wiadomość\",
+                  \"value\": \"${{ github.event.head_commit.message }}\"
+                }
+              ],
+              \"footer\": {
+                \"text\": \"GitHub Actions Automatyczne Powiadomienie\"
+              }
+            }]
+          }" \
+          ${{ secrets.DISCORD_WEBHOOK }}
