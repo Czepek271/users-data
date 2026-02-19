@@ -3,7 +3,8 @@
 003:Kod-Qr:???
 004:Nietoper:???
 005:Skafandr:???
-006:
+006:test:123
+
 
 
 
